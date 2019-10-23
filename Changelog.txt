@@ -1,0 +1,40 @@
+2.0.0
+- changed the source from xml.fileindex.nl to the anwb.nl json feed
+- user settings (road filter) are now stored in the persistent /mnt/data/tsc folder
+- this update will only be available on firmware 5 Toons
+
+1.0.8
+- firmware 5 compatibility
+
+1.0.7
+- now compatible with firmware 4.16.8 (some icons were not shown)
+- no need to update when on earlier firmwares
+
+1.0.6
+- Added highway A325 to the filter screen
+
+1.0.5
+- changed text in traffic jam screen
+- modified systray icon
+
+1.0.4
+- rebranded to fileinfo for use in toonstore
+
+1.0.3
+- packaged for application in the toonstore
+- cosmetic changes (systray icon)
+
+Version 1.0.2
+- ensure compatibility with firmware versions 3.x and 4.x
+- traffic screen was not initialized properly, started blank always untill you hit the filter button
+
+Version 1.0
+- added a tile with the first three roads with traffic jams (your road filter is active by default on the tile)
+
+Version 0.2
+- small bug fix regarding selection of N-roads when opening the change filter screen (was unselected by default instead of previous value)
+- added a tray icon for quick access to traffic info
+- added this changelog
+
+Version 0.1
+- initial release

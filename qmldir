@@ -1,0 +1,4 @@
+module apps.fileinfo
+FileinfoScreen 1.0 FileinfoScreen.qml
+FileinfoApp 1.0 FileinfoApp.qml
+FileinfoDelegate 1.0 FileinfoDelegate.qml
