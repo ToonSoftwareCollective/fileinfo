@@ -1,3 +1,6 @@
+2.0.1
+- road filter wasn't applied to the tile
+
 2.0.0
 - changed the source from xml.fileindex.nl to the anwb.nl json feed
 - user settings (road filter) are now stored in the persistent /mnt/data/tsc folder
