@@ -119,35 +119,37 @@ App {
 				} else {
 					length = 0;
 				}
-				if (roadTile2Name == "") {
-					roadTile2Name = msgWegNr;
-					roadTile2NumberOfJams = 1;
-					roadTile2TotalLength = length;
-					roadTile2 = true;
-				} else {
-					if (roadTile2Name == msgWegNr) {
-						roadTile2NumberOfJams = roadTile2NumberOfJams + 1;
-						roadTile2TotalLength = Math.round((roadTile2TotalLength + length) * 100) / 100;
+				if ((!fileinfoFilterEnabled) || (index !== -1)) {
+					if (roadTile2Name == "") {
+						roadTile2Name = msgWegNr;
+						roadTile2NumberOfJams = 1;
+						roadTile2TotalLength = length;
+						roadTile2 = true;
 					} else {
-						if (roadTile1Name == "") {
-							roadTile1Name = msgWegNr;
-							roadTile1NumberOfJams = 1;
-							roadTile1TotalLength = length;
-							roadTile1 = true;
+						if (roadTile2Name == msgWegNr) {
+							roadTile2NumberOfJams = roadTile2NumberOfJams + 1;
+							roadTile2TotalLength = Math.round((roadTile2TotalLength + length) * 100) / 100;
 						} else {
-							if (roadTile1Name == msgWegNr) {
-								roadTile1NumberOfJams = roadTile1NumberOfJams + 1;
-								roadTile1TotalLength = Math.round((roadTile1TotalLength + length) * 100) / 100;
+							if (roadTile1Name == "") {
+								roadTile1Name = msgWegNr;
+								roadTile1NumberOfJams = 1;
+								roadTile1TotalLength = length;
+								roadTile1 = true;
 							} else {
-								if (roadTile3Name == "") {
-									roadTile3Name = msgWegNr;
-									roadTile3NumberOfJams = 1;
-									roadTile3TotalLength = length;
-									roadTile3 = true;
+								if (roadTile1Name == msgWegNr) {
+									roadTile1NumberOfJams = roadTile1NumberOfJams + 1;
+									roadTile1TotalLength = Math.round((roadTile1TotalLength + length) * 100) / 100;
 								} else {
-									if (roadTile3Name == msgWegNr) {
-									roadTile3NumberOfJams = roadTile3NumberOfJams + 1;
-									roadTile3TotalLength = Math.round((roadTile3TotalLength + length) * 100) / 100;
+									if (roadTile3Name == "") {
+										roadTile3Name = msgWegNr;
+										roadTile3NumberOfJams = 1;
+										roadTile3TotalLength = length;
+										roadTile3 = true;
+									} else {
+										if (roadTile3Name == msgWegNr) {
+										roadTile3NumberOfJams = roadTile3NumberOfJams + 1;
+										roadTile3TotalLength = Math.round((roadTile3TotalLength + length) * 100) / 100;
+										}
 									}
 								}
 							}

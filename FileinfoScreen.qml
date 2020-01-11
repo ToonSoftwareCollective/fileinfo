@@ -137,6 +137,7 @@ Screen {
 				}
 				updateFileinfoFilter();
 				app.saveSettings();
+				app.updateFileinfoInfo(); // to update the tile
 			}
 		}
 
