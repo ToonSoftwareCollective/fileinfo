@@ -1,3 +1,6 @@
+2.0.2
+- dimmableColors update
+
 2.0.1
 - road filter wasn't applied to the tile
 

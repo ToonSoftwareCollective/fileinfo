@@ -21,7 +21,7 @@ Tile {
 			family: qfont.regular.name
 			pixelSize: isNxt ? 62 : 50
 		}
-		color: colors.waTileTextColor
+		color: (typeof dimmableColors !== 'undefined') ? dimmableColors.waTileTextColor : colors.waTileTextColor
         	visible: app.roadTile1
 	}
 
@@ -40,7 +40,7 @@ Tile {
 			family: qfont.bold.name
 			pixelSize: isNxt ? 25 : 20
 		}
-		color: colors.clockTileColor
+		color: (typeof dimmableColors !== 'undefined') ? dimmableColors.clockTileColor : colors.clockTileColor
         	visible: app.roadTile1
 	}
 
@@ -57,7 +57,7 @@ Tile {
 			family: qfont.bold.name
 			pixelSize: isNxt ? 25 : 20
 		}
-		color: colors.clockTileColor
+		color: (typeof dimmableColors !== 'undefined') ? dimmableColors.clockTileColor : colors.clockTileColor
         	visible: app.roadTile1
 	}
 
@@ -75,7 +75,7 @@ Tile {
 			family: qfont.regular.name
 			pixelSize: isNxt ? 62 : 50
 		}
-		color: colors.waTileTextColor
+		color: (typeof dimmableColors !== 'undefined') ? dimmableColors.waTileTextColor : colors.waTileTextColor
         	visible: app.roadTile2
 	}
 
@@ -94,7 +94,7 @@ Tile {
 			family: qfont.bold.name
 			pixelSize: isNxt ? 25 : 20
 		}
-		color: colors.clockTileColor
+		color: (typeof dimmableColors !== 'undefined') ? dimmableColors.clockTileColor : colors.clockTileColor
         	visible: app.roadTile2
 	}
 
@@ -112,7 +112,7 @@ Tile {
 			pixelSize: isNxt ? 25 : 20
 
 		}
-		color: colors.clockTileColor
+		color: (typeof dimmableColors !== 'undefined') ? dimmableColors.clockTileColor : colors.clockTileColor
         	visible: app.roadTile2
 	}
 
@@ -131,7 +131,7 @@ Tile {
 			family: qfont.regular.name
 			pixelSize: isNxt ? 62 : 50
 		}
-		color: colors.waTileTextColor
+		color: (typeof dimmableColors !== 'undefined') ? dimmableColors.waTileTextColor : colors.waTileTextColor
         	visible: app.roadTile3
 	}
 
@@ -151,7 +151,7 @@ Tile {
 			family: qfont.bold.name
 			pixelSize: isNxt ? 25 : 20
 		}
-		color: colors.clockTileColor
+		color: (typeof dimmableColors !== 'undefined') ? dimmableColors.clockTileColor : colors.clockTileColor
         	visible: app.roadTile3
 	}
 
@@ -169,7 +169,7 @@ Tile {
 			family: qfont.bold.name
 			pixelSize: isNxt ? 25 : 20
 		}
-		color: colors.clockTileColor
+		color: (typeof dimmableColors !== 'undefined') ? dimmableColors.clockTileColor : colors.clockTileColor
         	visible: app.roadTile3
 	}
 }
