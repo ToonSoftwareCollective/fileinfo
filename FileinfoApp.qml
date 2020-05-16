@@ -24,7 +24,6 @@ App {
 	property string fileinfoData
 	property string fileinfoDataAll
 	property string fileinfoDataFiltered
-	property variant fileAnwbJSON : {}
 
 	// Fileinfo filter string and filter enabled indicator
 	property bool fileinfoFilterEnabled: false
@@ -68,117 +67,6 @@ App {
 
 	// Parse the Fileinfo XML message and signal the FileinfoScreen. If there is no info between the <meldingen></meldingen> tags, empty the fileinfoData string
 
-	function parseFileinfo(fileTxt) {
-
-		fileAnwbJSON = JSON.parse(fileTxt); 
-		fileinfoDataRead = true;
-
-			// clear Tile
-		roadTile1Name = "";
-		roadTile1NumberOfJams = 0;
-		roadTile1TotalLength = 0;
-		roadTile1 = false;
-
-		roadTile2Name = "";
-		roadTile2NumberOfJams = 0;
-		roadTile2TotalLength = 0;
-		roadTile2 = false;
-
-		roadTile3Name = "";
-		roadTile3NumberOfJams = 0;
-		roadTile3TotalLength = 0;
-		roadTile3 = false;
-
-			// create filtered and normal set of traffic jams
-
-		var length = 0;
-		var delay = 0;
-		var msgFilter = "";
-		var msgWegNr = "-";
-		var searchmsgWegNr = "-";
-		var myFilter = fileinfoFilterArray;
-		var filterArr = myFilter.split(",");
-
-		fileinfoDataFiltered = "<meldingen>";
-		fileinfoDataAll = "<meldingen>";
-
-		var i = fileAnwbJSON["roadEntries"].length;
-		for (var i = 0; i < fileAnwbJSON["roadEntries"].length; i++) {	
-
-			msgWegNr= fileAnwbJSON["roadEntries"][i]["road"];
-			searchmsgWegNr= msgWegNr;
-				// 	lookup roadnr in filter array
-			if (msgWegNr.substring(0,1) == "N") {
-				searchmsgWegNr = "N"
-			}
-			var index = filterArr.indexOf(searchmsgWegNr);
-			for (var j = 0; j < fileAnwbJSON["roadEntries"][i]["events"]["trafficJams"].length; j++) {	
-					// 	get length if supplied
-				if (fileAnwbJSON["roadEntries"][i]["events"]["trafficJams"][j]["distance"]) {
-					length = parseInt(fileAnwbJSON["roadEntries"][i]["events"]["trafficJams"][j]["distance"]) / 1000;
-				} else {
-					length = 0;
-				}
-				if ((!fileinfoFilterEnabled) || (index !== -1)) {
-					if (roadTile2Name == "") {
-						roadTile2Name = msgWegNr;
-						roadTile2NumberOfJams = 1;
-						roadTile2TotalLength = length;
-						roadTile2 = true;
-					} else {
-						if (roadTile2Name == msgWegNr) {
-							roadTile2NumberOfJams = roadTile2NumberOfJams + 1;
-							roadTile2TotalLength = Math.round((roadTile2TotalLength + length) * 100) / 100;
-						} else {
-							if (roadTile1Name == "") {
-								roadTile1Name = msgWegNr;
-								roadTile1NumberOfJams = 1;
-								roadTile1TotalLength = length;
-								roadTile1 = true;
-							} else {
-								if (roadTile1Name == msgWegNr) {
-									roadTile1NumberOfJams = roadTile1NumberOfJams + 1;
-									roadTile1TotalLength = Math.round((roadTile1TotalLength + length) * 100) / 100;
-								} else {
-									if (roadTile3Name == "") {
-										roadTile3Name = msgWegNr;
-										roadTile3NumberOfJams = 1;
-										roadTile3TotalLength = length;
-										roadTile3 = true;
-									} else {
-										if (roadTile3Name == msgWegNr) {
-										roadTile3NumberOfJams = roadTile3NumberOfJams + 1;
-										roadTile3TotalLength = Math.round((roadTile3TotalLength + length) * 100) / 100;
-										}
-									}
-								}
-							}
-						}
-					}
-				}
-				delay = 0;
-				if (fileAnwbJSON["roadEntries"][i]["events"]["trafficJams"][j]["delay"]) {
-					delay = parseInt(fileAnwbJSON["roadEntries"][i]["events"]["trafficJams"][j]["delay"]);
-				}
-				if (index !== -1) {
-					fileinfoDataFiltered = fileinfoDataFiltered + "<melding><wegnr>" + fileAnwbJSON["roadEntries"][i]["road"] + "</wegnr><description>" + fileAnwbJSON["roadEntries"][i]["events"]["trafficJams"][j]["description"] + "</description><afstand>" + length + "</afstand><vertraging>" + delay + "</vertraging></melding>";
-				}
-				fileinfoDataAll = fileinfoDataAll + "<melding><wegnr>" + fileAnwbJSON["roadEntries"][i]["road"] + "</wegnr><description>" + fileAnwbJSON["roadEntries"][i]["events"]["trafficJams"][j]["description"] + "</description><afstand>" + length + "</afstand><vertraging>" + delay + "</vertraging></melding>";
-			}
-		}
-		
-		fileinfoDataFiltered = fileinfoDataFiltered  + "</meldingen>";
-		fileinfoDataAll = fileinfoDataAll  + "</meldingen>";
-
-			//actual data to be displayed on screen
-
-		if (fileinfoFilterEnabled) {
-			fileinfoData = fileinfoDataFiltered;
-		} else {
-			fileinfoData = fileinfoDataAll;
-		}
-		fileinfoUpdated();
-	}
 
 	function saveSettings() {
 
@@ -207,11 +95,130 @@ App {
 		xmlhttp.onreadystatechange=function() {
 			if (xmlhttp.readyState == 4) {
 				if (xmlhttp.status == 200) {
-					parseFileinfo(xmlhttp.responseText);
+
+					var fileAnwbJSON = JSON.parse(xmlhttp.responseText); 
+					fileinfoDataRead = true;
+
+						// clear Tile
+					roadTile1Name = "";
+					roadTile1NumberOfJams = 0;
+					roadTile1TotalLength = 0;
+					roadTile1 = false;
+
+					roadTile2Name = "";
+					roadTile2NumberOfJams = 0;
+					roadTile2TotalLength = 0;
+					roadTile2 = false;
+
+					roadTile3Name = "";
+					roadTile3NumberOfJams = 0;
+					roadTile3TotalLength = 0;
+					roadTile3 = false;
+
+						// create filtered and normal set of traffic jams
+
+					var length = 0;
+					var delay = 0;
+					var msgFilter = "";
+					var msgWegNr = "-";
+					var searchmsgWegNr = "-";
+					var myFilter = fileinfoFilterArray;
+					var filterArr = myFilter.split(",");
+					var description = "";
+
+					fileinfoDataFiltered = "<meldingen>";
+					fileinfoDataAll = "<meldingen>";
+
+					for (var i = 0; i < fileAnwbJSON["roads"].length; i++) {	
+
+						msgWegNr= fileAnwbJSON["roads"][i]["road"];
+						searchmsgWegNr= msgWegNr;
+							// 	lookup roadnr in filter array
+						if (msgWegNr.substring(0,1) == "N") {
+							searchmsgWegNr = "N"
+						}
+						var index = filterArr.indexOf(searchmsgWegNr);
+						for (var j = 0; j < fileAnwbJSON["roads"][i]["segments"].length; j++) {	
+
+							if (fileAnwbJSON["roads"][i]["segments"][j]["jams"]) {
+
+								for (var k = 0; k < fileAnwbJSON["roads"][i]["segments"][j]["jams"].length; k++) {	
+
+										// 	get length if supplied
+									if (fileAnwbJSON["roads"][i]["segments"][j]["jams"][k]["distance"]) {
+										length = parseInt(fileAnwbJSON["roads"][i]["segments"][j]["jams"][k]["distance"]) / 1000;
+									} else {
+										length = 0;
+									}
+									if ((!fileinfoFilterEnabled) || (index !== -1)) {
+										if (roadTile2Name == "") {
+											roadTile2Name = msgWegNr;
+											roadTile2NumberOfJams = 1;
+											roadTile2TotalLength = length;
+											roadTile2 = true;
+										} else {
+											if (roadTile2Name == msgWegNr) {
+												roadTile2NumberOfJams = roadTile2NumberOfJams + 1;
+												roadTile2TotalLength = Math.round((roadTile2TotalLength + length) * 100) / 100;
+											} else {
+												if (roadTile1Name == "") {
+													roadTile1Name = msgWegNr;
+													roadTile1NumberOfJams = 1;
+													roadTile1TotalLength = length;
+													roadTile1 = true;
+												} else {
+													if (roadTile1Name == msgWegNr) {
+														roadTile1NumberOfJams = roadTile1NumberOfJams + 1;
+														roadTile1TotalLength = Math.round((roadTile1TotalLength + length) * 100) / 100;
+													} else {
+														if (roadTile3Name == "") {
+															roadTile3Name = msgWegNr;
+															roadTile3NumberOfJams = 1;
+															roadTile3TotalLength = length;
+															roadTile3 = true;
+														} else {
+															if (roadTile3Name == msgWegNr) {
+															roadTile3NumberOfJams = roadTile3NumberOfJams + 1;
+															roadTile3TotalLength = Math.round((roadTile3TotalLength + length) * 100) / 100;
+															}
+														}
+													}
+												}
+											}
+										}
+									}
+									delay = 0;
+									if (fileAnwbJSON["roads"][i]["segments"][j]["jams"][k]["delay"]) {
+										delay = parseInt(fileAnwbJSON["roads"][i]["segments"][j]["jams"][k]["delay"]);
+									}
+									description = "Van " + fileAnwbJSON["roads"][i]["segments"][j]["jams"][k]["from"] + " naar " + fileAnwbJSON["roads"][i]["segments"][j]["jams"][k]["to"];
+									if (fileAnwbJSON["roads"][i]["segments"][j]["jams"][k]["reason"]) {
+										description = description + ". " + fileAnwbJSON["roads"][i]["segments"][j]["jams"][k]["reason"];
+									}
+									if (index !== -1) {
+										fileinfoDataFiltered = fileinfoDataFiltered + "<melding><wegnr>" + fileAnwbJSON["roads"][i]["road"] + "</wegnr><description>" + description + "</description><afstand>" + length + "</afstand><vertraging>" + delay + "</vertraging></melding>";
+									}
+									fileinfoDataAll = fileinfoDataAll + "<melding><wegnr>" + fileAnwbJSON["roads"][i]["road"] + "</wegnr><description>" + description + "</description><afstand>" + length + "</afstand><vertraging>" + delay + "</vertraging></melding>";
+								}
+							}
+						}
+					}
+		
+					fileinfoDataFiltered = fileinfoDataFiltered  + "</meldingen>";
+					fileinfoDataAll = fileinfoDataAll  + "</meldingen>";
+
+						//actual data to be displayed on screen
+
+					if (fileinfoFilterEnabled) {
+						fileinfoData = fileinfoDataFiltered;
+					} else {
+						fileinfoData = fileinfoDataAll;
+					}
+					fileinfoUpdated();
 				}
 			}
 		}
-		xmlhttp.open("GET", "https://www.anwb.nl/feeds/gethf", true);
+		xmlhttp.open("GET", "https://api.anwb.nl/v1/incidents/details?apikey=QYUEE3fEcFD7SGMJ6E7QBCMzdQGqRkAi", true);
 		xmlhttp.send();
 	}
 
