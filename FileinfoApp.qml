@@ -191,7 +191,11 @@ App {
 									if (fileAnwbJSON["roads"][i]["segments"][j]["jams"][k]["delay"]) {
 										delay = parseInt(fileAnwbJSON["roads"][i]["segments"][j]["jams"][k]["delay"]);
 									}
-									description = "Van " + fileAnwbJSON["roads"][i]["segments"][j]["jams"][k]["from"] + " naar " + fileAnwbJSON["roads"][i]["segments"][j]["jams"][k]["to"];
+									if (fileAnwbJSON["roads"][i]["segments"][j]["jams"][k]["from"] == fileAnwbJSON["roads"][i]["segments"][j]["jams"][k]["to"]) {
+										description = fileAnwbJSON["roads"][i]["segments"][j]["jams"][k]["from"];
+									} else {
+										description = "Van " + fileAnwbJSON["roads"][i]["segments"][j]["jams"][k]["from"] + " naar " + fileAnwbJSON["roads"][i]["segments"][j]["jams"][k]["to"];
+									}
 									if (fileAnwbJSON["roads"][i]["segments"][j]["jams"][k]["reason"]) {
 										description = description + ". " + fileAnwbJSON["roads"][i]["segments"][j]["jams"][k]["reason"];
 									}

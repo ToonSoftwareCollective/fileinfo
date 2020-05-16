@@ -1,3 +1,6 @@
+2.0.4
+- small change in desription of traffic
+
 2.0.3
 - switched to new ANWB data feed
 
