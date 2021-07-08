@@ -222,7 +222,7 @@ App {
 				}
 			}
 		}
-		xmlhttp.open("GET", "https://api.anwb.nl/v1/incidents/details?apikey=QYUEE3fEcFD7SGMJ6E7QBCMzdQGqRkAi", true);
+		xmlhttp.open("GET", "https://api.anwb.nl/v2/incidents/desktop?apikey=QYUEE3fEcFD7SGMJ6E7QBCMzdQGqRkAi", true);
 		xmlhttp.send();
 	}
 
