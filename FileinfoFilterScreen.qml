@@ -5,7 +5,23 @@ import qb.components 1.0
 Screen {
 	id: fileinfoFilterScreen
 
-	property variant roadArray : ["A1", "A2", "A4", "A5", "A6", "A7", "A8", "A9", "A10", "A12", "A13", "A15", "A16", "A17", "A18", "A20", "A22", "A27", "A28", "A29", "A30", "A31", "A32", "A35", "A37", "A38", "A44", "A50", "A58", "A59", "A65", "A67", "A73", "A74", "A76", "A77", "A79", "A200", "A325", "Alle\nN-wegen"]
+	property variant defaultRoadArray : [
+		"A1", "A2", "A4", "A6", "A7", "A8", "A9", "A10", "A12", "A13",
+		"A15", "A16", "A17", "A18", "A20", "A22", "A27", "A28", "A29", "A30",
+		"A31", "A32", "A35", "A37", "A38", "A44", "A50", "A58", "A59", "A65",
+		"A67", "A73", "A74", "A76", "A77", "A79", "A200", "A325",
+		"N3", "N7", "N9", "N11", "N14", "N18", "N30", "N31", "N32", "N33",
+		"N35", "N36", "N44", "N46", "N48", "N50", "N57", "N59", "N61", "N65",
+		"N99", "N200", "N434", "N915",
+		"Alle\nN-wegen"
+	]
+
+	function effectiveRoadArray() {
+		if (app.fileinfoAvailableRoads && app.fileinfoAvailableRoads.length > 0) {
+			return app.fileinfoAvailableRoads;
+		}
+		return defaultRoadArray;
+	}
 
 	screenTitle: qsTr("Filter")
 	isSaveCancelDialog: true
@@ -13,6 +29,7 @@ Screen {
 	onShown: {
 		// Get the correct button indices to set selected state on
 
+		var roadArray = effectiveRoadArray();
 		var myFilter = app.fileinfoFilterArray;
 		var filterArr = myFilter.split(",");
 		var selectedIndexArr = [];
@@ -38,6 +55,7 @@ Screen {
 
 	onSaved: {
 		// Create array string of roads
+		var roadArray = effectiveRoadArray();
 		var selectedIndexArr = fileinfoFilterGroup.getSelectedControls();
 		var filterArr = [];
 
@@ -64,10 +82,11 @@ Screen {
 		model: fileinfoFilterModel
 		delegate: FileinfoFilterDelegate {}
 
-		interactive: false
 		flow: GridView.TopToBottom
 		cellWidth: isNxt ? 132 : 106
 		cellHeight: isNxt ? 75 : 60
+		interactive: true
+		flickableDirection: Flickable.VerticalFlick
 
 		anchors {
 			fill: parent
@@ -83,6 +102,7 @@ Screen {
 
 		// Load roads from array
 		Component.onCompleted: {
+			var roadArray = effectiveRoadArray();
 			for (var i = 0; i < roadArray.length; i++) {
 				append({roadName: roadArray[i]});
 			}
